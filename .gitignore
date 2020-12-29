@@ -27,3 +27,7 @@ hs_err_pid*
 !/Learning.iml
 !/.idea/
 !/.idea/workspace.xml
+!/.idea/
+!/JVM/JVM.iml
+*.iml
+*/target/
