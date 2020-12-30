@@ -31,3 +31,4 @@ hs_err_pid*
 !/JVM/JVM.iml
 *.iml
 */target/
+*/.idea/
