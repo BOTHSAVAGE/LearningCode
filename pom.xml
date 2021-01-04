@@ -5,6 +5,11 @@
 
     <groupId>com.example</groupId>
     <artifactId>LearningCode</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>atgugu</module>
+        <module>atguigu</module>
+    </modules>
     <name>Test</name>
 </project>
