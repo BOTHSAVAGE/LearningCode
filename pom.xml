@@ -10,6 +10,7 @@
     <modules>
         <module>atgugu</module>
         <module>atguigu</module>
+        <module>springboot</module>
     </modules>
     <name>Test</name>
 </project>
