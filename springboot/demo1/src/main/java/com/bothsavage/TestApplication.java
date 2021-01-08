@@ -11,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 //@SpringBootConfiguration
 //@EnableAutoConfiguration
 //@ComponentScan("com.bothsavage")
+//@EnableConfigurationProperties
 public class TestApplication {
     public static void main(String[] args) {
         //ioc容器
@@ -39,6 +40,10 @@ public class TestApplication {
 
         //验证@conditional,springboot底层有很多这个
         System.out.println(run.containsBean("returnTestConditon"));
+
+        //只有在容器中的组件才能加载configuraporpertirse
+        Object testConfig = run.getBean("TestConfig");
+        System.out.println(testConfig);
 
 
     }
