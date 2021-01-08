@@ -45,6 +45,10 @@ public class TestApplication {
         Object testConfig = run.getBean("TestConfig");
         System.out.println(testConfig);
 
+        //获取容器中有多少组件
+        int beanDefinitionCount = run.getBeanDefinitionCount();
+        System.out.println(beanDefinitionCount);
+
 
     }
 }
