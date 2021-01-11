@@ -8,6 +8,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.FormatterRegistry;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * proxyBeanMethods默认为true
@@ -39,7 +43,7 @@ public class MyConfig {
 
     @Bean("pet")
     public Pet returnPe(){
-        return new  Pet("pet");
+        return new  Pet("pet",12);
     }
 
 
@@ -47,6 +51,32 @@ public class MyConfig {
     @ConditionalOnBean(name="pet")
     public TestCondition returnTestConditon(){
         return new TestCondition();
+    }
+
+
+
+    //webMVCfongiure 可以定制springMVc的功能
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addFormatters(FormatterRegistry registry) {
+                    registry.addConverter(new Converter<String, Pet>() {
+                        @Override
+                        public Pet convert(String source) {
+                            //解析
+                            if(!StringUtils.isEmpty(source)){
+                                Pet pet = new Pet();
+                                String[] strings = source.split(",");
+                                pet.setPetName(strings[0]);
+                                pet.setPetAge(Integer.parseInt(strings[1]));
+                                return pet;
+                            }
+                            return null;
+                        }
+                    });
+            }
+        };
     }
 
 }
