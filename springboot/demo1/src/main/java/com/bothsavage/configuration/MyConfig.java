@@ -4,14 +4,25 @@ import ch.qos.logback.core.db.DBHelper;
 import com.bothsavage.bean.Pet;
 import com.bothsavage.bean.TestCondition;
 import com.bothsavage.bean.User;
+import com.bothsavage.converter.MessageConverter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.StringUtils;
+import org.springframework.web.accept.HeaderContentNegotiationStrategy;
+import org.springframework.web.accept.ParameterContentNegotiationStrategy;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * proxyBeanMethods默认为true
@@ -59,6 +70,38 @@ public class MyConfig {
     @Bean
     public WebMvcConfigurer webMvcConfigurer(){
         return new WebMvcConfigurer() {
+
+            /**
+             * 自定义的内容协商策略
+             * @param configurer
+             */
+            @Override
+            public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+
+                Map<String, MediaType> mediaTypeMap= new HashMap<>();
+                mediaTypeMap.put("json",MediaType.APPLICATION_JSON);
+                mediaTypeMap.put("xml",MediaType.APPLICATION_XML);
+                mediaTypeMap.put("gg",MediaType.parseMediaType("application/x-guigu"));
+
+
+                //指定支持哪些参数对应的媒体类型
+                ParameterContentNegotiationStrategy parameterContentNegotiationStrategy = new ParameterContentNegotiationStrategy(mediaTypeMap);
+
+
+                //请求头协商管理器，strategies里面就是所有的内容协商策略，如果要重写的话就要把之前的内容协商期的也放回去
+
+                HeaderContentNegotiationStrategy headerContentNegotiationStrategy = new HeaderContentNegotiationStrategy();
+
+                configurer.strategies(Arrays.asList(parameterContentNegotiationStrategy,headerContentNegotiationStrategy));
+
+            }
+
+            //加入自己的消息转换器
+            @Override
+            public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+                converters.add(new MessageConverter());
+            }
+
             @Override
             public void addFormatters(FormatterRegistry registry) {
                     registry.addConverter(new Converter<String, Pet>() {

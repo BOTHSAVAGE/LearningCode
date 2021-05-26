@@ -11,6 +11,7 @@
         <module>atgugu</module>
         <module>atguigu</module>
         <module>springboot</module>
+        <module>1.DataStructure</module>
     </modules>
     <name>Test</name>
 </project>
