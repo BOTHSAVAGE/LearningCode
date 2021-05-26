@@ -24,10 +24,10 @@ public class ClassicE {
         int sum,r,c;
         sum = r = c = 0;
         for(int[] row:chessArr1){
-            r++;
+            r++;//计算行数
             for(int data:row){
                 if(r==1){
-                    c++;
+                    c++;//计算列数，避免重复计算所以只计算第一行的
                 }
                 if(data!=0){
                     sum++;
@@ -35,11 +35,12 @@ public class ClassicE {
             }
         }
 
-
+        //sum+1表示总行数，3为具体的具体的坐标+值
         int sparseArray[][] = new int[sum+1][3];
-        sparseArray[0][0] = c;
-        sparseArray[0][1] = r;
-        sparseArray[0][2] = sum;
+        //第一行存储稀疏矩阵的信息
+        sparseArray[0][0] = c;//列数
+        sparseArray[0][1] = r;//行数
+        sparseArray[0][2] = sum;//多少个有效数据
 
 
         for(int i=0;i<r;i++) {
@@ -59,10 +60,5 @@ public class ClassicE {
             }
             System.out.println("\n");
         }
-
-
-
-
-
     }
 }
